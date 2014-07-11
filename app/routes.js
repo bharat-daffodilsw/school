@@ -24,7 +24,21 @@ module.exports = function(app) {
 
     // frontend routes =========================================================
     // route to handle all angular requests
-    app.get('*', function(req, res) {
+    app.all('/page/:name', function(req, res) {
+        console.log("page "+req.params.name);
+//        res.sendfile(('../public/views/'+req.params.name)); // load our public/index.html file
+        res.sendfile('./public/views/'+req.params.name);
+    });
+    app.get('/login', function(req, res) {
+        console.log("login");
+        res.sendfile('../public/views/login.html'); // load our public/index.html file
+    });
+    app.get('/home', function(req, res) {
+        console.log("home");
+        res.sendfile('../public/views/home.html'); // load our public/index.html file
+    });
+    app.get('/', function(req, res) {
+        console.log("index");
         res.sendfile('./public/index.html'); // load our public/index.html file
     });
 
