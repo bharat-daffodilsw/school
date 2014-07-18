@@ -6,15 +6,22 @@
             Same Same Same Same </p>
     </div>
     <div class="col-lg-6 pull-right">
-        <h2> Log In </h2>
+        <h2> Register </h2>
         <form action="" class="user_login   ng-pristine ng-valid" ng-submit="login()">
+            <div class="user_log">First name</div>
+            <div class="user_name"><input type="text" id="firstname" placeholder="first name"></div>
+            <div class="user_log">Last Name</div>
+            <div class="user_name"><input type="text" id="lastname" placeholder="last name"></div>
             <div class="user_log">Email</div>
             <div class="user_name"><input type="text" id="username" placeholder="email"></div>
             <div class="user_log">Password</div>
             <div class="user_name"><input type="password" id="password" placeholder="********"></div>
-            <div class="log_btn"><input type="submit" id="edit-submit-1" value="Log in" class="btn"></div>
-            <div class="forget_password" ng-click="userForgotPassword()"><a href="">Forget Your Password ?</a></div>
+            <div class="user_log">Confirm Password</div>
+            <div class="user_name"><input type="password" id="confirm_password" placeholder="********"></div>
+            <div class=""><input type="checkbox" id="confirm"></div>
+            <div class="log_btn"><input type="submit" id="edit-submit-1" value="Sign up" class="btn"></div>
+
         </form>
 
     </div>
-   </div>
+</div>

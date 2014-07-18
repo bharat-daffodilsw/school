@@ -1,0 +1,21 @@
+localhost:5400/rest/data/insert?query={"collection":"model", "operations":[{"name":"country","fields":{"name":"String"}}]}
+
+localhost:5400/rest/data/insert?query={"collection":"model", "operations":[{"name":"state","fields":{"name":"String","countryid":{"type":"ObjectId","ref":"country"}}}]}
+
+localhost:5400/rest/data/insert?query={"collection":"model", "operations":[{"name":"city","fields":{"name":"String","stateid":{"type":"ObjectId","ref":"state"}}}]}
+
+localhost:5400/rest/data/insert?query={"collection":"country", "operations":[{"name":"india"}]}
+
+localhost:5400/rest/data/insert?query={"collection":"country", "operations":[{"name":"usa"}]}
+
+localhost:5400/rest/data/insert?query={"collection":"country", "operations":[{"name":"pakistan"}]}
+
+localhost:5400/rest/data/insert?query={"collection":"state", "operations":[{"name":"haryana", "countryid":"53c7cab96f2e13100925f455"}]}
+
+localhost:5400/rest/data/insert?query={"collection":"state", "operations":[{"name":"punjab", "countryid":"53c7cab96f2e13100925f455"}]}
+
+localhost:5400/rest/data/update?query={"collection":"state", "operations":[{"name":"Rajasthan", "__conditions":{"name":"punjab"}},{"name":"Haryana", "__conditions":{"name":"haryana"}}]}
+
+localhost:5400/rest/data/remove?query={"collection":"state", "conditions":{"name":"Rajasthan"}}
+
+localhost:5400/rest/data/insert?query={"collection":"city", "operations":[{"name":"hisar", "stateid":"53c7ceee1adc0600057eb639"}]}

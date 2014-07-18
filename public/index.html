@@ -3,9 +3,10 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Welcome</title>
-    <link type="text/css" href="css/bootstrap-theme.css">
-    <link type="text/css" href="css/style.css">
-    <link type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
     <script type="text/javascript" src="js/javascript.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/newangular.js"></script>
@@ -16,6 +17,9 @@
 
 </head>
 <body ng-app="schoolApp" ng-controller="MainController">
-<div ng-view></div>
+<div class="container">
+    <div class="row"><span class="col-md-12"><h1>Header Goes here</h1></span></div>
+    <div ng-view></div>
+</div>
 </body>
 </html>

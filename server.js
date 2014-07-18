@@ -1,35 +1,52 @@
-// server.js
-
-// modules =================================================
-var express        = require('express');
-var app            = express();
-var mongoose       = require('mongoose');
-var bodyParser     = require('body-parser');
+var http = require('http');
+var path = require('path');
+var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-
-
-// configuration ===========================================
-
-// config files
+var app = express();
 var db = require('./config/db');
-
+var functions=require('./dataBase/functions');
 var port = process.env.PORT || 8888; // set our port
-// mongoose.connect(db.url); // connect to our mongoDB database (uncomment after you enter in your own credentials in config/db.js)
+mongoose.connect(db.uri, db.opts);
+var db = mongoose.connection;
+var Schema = mongoose.Schema;
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(express.static(__dirname + '/public'));
+db.on('error',function (err) {
+    console.log('Mongoose connection error: ' + err);
+});
+db.on('disconnected', function () {
+    console.log('Mongoose disconnected');
+});
+process.on('SIGINT', function() {
+    db.close(function () {
+        console.log('Mongoose disconnected through app termination');
+        process.exit(0);
+    });
+});
+db.once('open', function() {
 
-// get all data/stuff of the body (POST) parameters
-app.use(bodyParser.json()); // parse application/json
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
-app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
-
-app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
-app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
-
-// routes ==================================================
-require('./app/routes')(app); // configure our routes
-
-// start app ===============================================
-app.listen(port);										// startup our app at http://localhost:8080
-console.log('Magic happens on port ' + port); 			// shoutout to the user
-exports = module.exports = app; 						// expose app
-
-
+    mongoose.model('model', new Schema({
+        name:{type:String,unique:true},
+        fields: {}
+    }));
+    // Creating schemas and models after fetch from database
+    functions.find({"collection":"model"}, function(result){
+        var schemas = result.data;
+        for(var i in schemas){
+            var schema = schemas[i];
+                mongoose.model(schema.name, new Schema(schema.fields));
+        }
+    });
+});
+db.on('connected', function () {
+    // Creating the fixed schema -- Model
+    require('./app/routes')(app);
+    app.listen(port);
+    console.log('Magic happens on port ' + port);
+    exports = module.exports = app;
+});

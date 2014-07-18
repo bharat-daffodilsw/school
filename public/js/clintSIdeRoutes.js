@@ -1,12 +1,17 @@
+var DOMAIN="http://localhost:8888";
 schoolApp.config(function ($routeProvider, $locationProvider) { $locationProvider.hashPrefix('!');
         $routeProvider.
             when('/home', {
-                templateUrl: 'http://localhost:8888/page/home.html',
+                templateUrl: DOMAIN+'/page/home.html',
                 controller: 'homeCtrl'
             }).when('/login', {
-        templateUrl: 'http://localhost:8888/page/login.html',
-        controller: 'homeCtrl'
-    }).otherwise(
-            {"redirectTo":"/"}
-        );
+        templateUrl: DOMAIN+'/page/login.html',
+        controller: 'loginCtrl'
+    }).when('/create-user', {
+                templateUrl: DOMAIN+'/page/createUser.html',
+                controller: 'createUserCtrl'
+            })
+//            .otherwise(
+//            {"redirectTo":"/login"}
+//        );
     });
