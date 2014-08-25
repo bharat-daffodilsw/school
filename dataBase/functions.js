@@ -43,9 +43,14 @@ var update = function (updateInfos, callback) {
         delete operation["__options"];
         model.update(conditions, operation, options, function (err, result) {
             counter++;
-            resResult.push(err ? { "error": err } : { "updated": result });
+            if (err) {
+                resResult.push({error: err, status: "error", "code": 502});
+            }
+            else {
+                resResult.push({data: result, status: "ok", "code": 200});
+            }
             if (counter == total) {
-                var finalResult = { "data": resResult, "status": "ok", "code": 200 };
+                var finalResult = {"update": resResult};
                 callback(finalResult);
             }
         });
